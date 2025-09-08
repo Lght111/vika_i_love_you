@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Сюрприз 🎉</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="Love_VIky.html">Головна</a></li>
+      <li><a href="moments.html">Наші моменти</a></li>
+      <li><a href="surprise.html">Сюрприз</a></li>
+      <li><a href="message.html">💌 Послання</a></li>
+      <li><a href="video.html" class="active">Відео</a></li>
+    </ul>
+  </nav>
+
+  <div class="content">
+    <h1 class="typing">🎂 З Днем народження, моя особлива людино! 🎂</h1>
+    <p>Ти для мене найдорожче у цьому світі. Нехай цей маленький сайт завжди нагадує, як сильно я тебе люблю 💖</p>
+    
+    <button onclick="showHearts()">Натисни мене 😘</button>
+    <div id="hearts"></div>
+
+    <!-- Контейнер для салюту -->
+    <canvas id="fireworks"></canvas>
+  </div>
+
+  <script>
+    // Сердечка
+    function showHearts() {
+      const hearts = document.getElementById("hearts");
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 90 + "vw";
+        heart.style.animationDuration = 2 + Math.random() * 3 + "s";
+        hearts.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 5000);
+      }
+    }
+
+    // Салют
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function createFirework(x, y) {
+      for (let i = 0; i < 80; i++) {
+        particles.push({
+          x: x,
+          y: y,
+          radius: 2,
+          color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+          speed: random(1, 6),
+          angle: random(0, Math.PI * 2),
+          life: 100
+        });
+      }
+    }
+
+    function animate() {
+      ctx.fillStyle = "rgba(0,0,0,0.2)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += Math.cos(p.angle) * p.speed;
+        p.y += Math.sin(p.angle) * p.speed;
+        p.life--;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        if (p.life <= 0) particles.splice(i, 1);
+      }
+      requestAnimationFrame(animate);
+    }
+
+    setInterval(() => {
+      createFirework(random(100, canvas.width-100), random(100, canvas.height/2));
+    }, 1200);
+
+    animate();
+  </script>
+</body>
+</html>

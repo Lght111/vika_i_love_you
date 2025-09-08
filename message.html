@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Таємні послання 💌</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at top, #ffdde1, #ee9ca7);
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      flex-direction: column;
+    }
+
+    h1 {
+      color: #fff;
+      font-size: 2em;
+      text-shadow: 0 0 10px rgba(0,0,0,0.3);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .btn {
+      background: #ff4b5c;
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1.2em;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+      margin-bottom: 15px;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+      background: #ff1e3c;
+    }
+
+    .message {
+      display: none;
+      color: #fff;
+      font-size: 1.5em;
+      max-width: 600px;
+      margin: 20px auto;
+      text-align: center;
+      min-height: 80px;
+    }
+
+    .links {
+      margin-top: 20px;
+      display: none;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .links a {
+      background: #fff;
+      color: #ff4b5c;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .links a:hover {
+      background: #ff4b5c;
+      color: #fff;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      color: rgba(255, 0, 90, 0.7);
+      animation: floatUp 5s linear infinite;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(100vh) scale(1); opacity: 1; }
+      to { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Натискай кнопку і читай мої послання 💌</h1>
+  <button class="btn" onclick="showNextMessage()">Далі ➡️</button>
+  <div class="message" id="message"></div>
+
+  <div class="links" id="links">
+    <a href="Love_VIky.html">🏠 Головна</a>
+    <a href="memories.html">📸 Наші моменти</a>
+    <a href="surprise.html">🎇 Сюрприз</a>
+    <a href="video.html">🎥 Відео</a>
+  </div>
+
+  <script>
+    const messages = [
+      "Я кохаю тебе більше, ніж можу описати словами ❤️",
+      "Ти моє сонечко, яке освітлює навіть найпохмуріший день ☀️",
+      "З тобою я відчуваю, що щастя існує 💖",
+      "І пам’ятай: я завжди буду поруч, неважливо що 🫂"
+    ];
+
+    let index = 0;
+    let typingInterval;
+
+    function showNextMessage() {
+      const msg = document.getElementById("message");
+      const links = document.getElementById("links");
+      msg.style.display = "block";
+      msg.innerHTML = "";
+      links.style.display = "none";
+
+      // Зупиняємо попередній таймер (щоб не було каші з буквами)
+      clearInterval(typingInterval);
+
+      let i = 0;
+      const text = messages[index];
+
+      typingInterval = setInterval(() => {
+        if (i < text.length) {
+          msg.innerHTML += text.charAt(i);
+          i++;
+        } else {
+          clearInterval(typingInterval);
+          if (index === messages.length - 1) {
+            links.style.display = "flex"; // показуємо гіперпосилання
+          }
+        }
+      }, 60);
+
+      index++;
+      if (index >= messages.length) index = 0; // цикл по колу
+    }
+
+    // сердечка на фоні
+    setInterval(() => {
+      let heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 20 + 10 + "px";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 5000);
+    }, 500);
+  </script>
+</body>
+</html>
+
+
